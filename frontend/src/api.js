@@ -11,3 +11,8 @@ export const getTeams = async () => {
 	const response = await api.get("/teams/");
 	return response.data;
 };
+
+export const getTeamDetail = async (teamId) => {
+	const response = await api.get(`/teams/${teamId}`);
+	return response.data;
+};

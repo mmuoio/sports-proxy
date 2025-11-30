@@ -26,6 +26,7 @@ def get_all_teams(request):
 
 @api_view(['GET'])
 def get_team(request, team_id):
+	return Response(1)
 	cache_key = f"team_{team_id}"
 	cached_data = cache.get(cache_key)
 	if cached_data:
