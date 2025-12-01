@@ -41,8 +41,32 @@ class AsyncRapidApiClient:
             response.raise_for_status()
             return response.json()
 
+    async def get_team_info(self, team_id, year):
+        return await self._get(
+            "/nfl-team-info",
+            params={"id": team_id},
+        )
+
     async def get_team_record(self, team_id, year):
         return await self._get(
-            "/nfl-team-rcord",
+            "/nfl-team-record",
+            params={"id": team_id, "year": year},
+        )
+    
+    async def get_team_schedule(self, team_id, year):
+        return await self._get(
+            "/nfl-team-schedule",
+            params={"id": team_id, "year": year},
+        )
+    
+    async def get_team_leaders(self, team_id, year):
+        return await self._get(
+            "/nfl-team-leaders",
+            params={"id": team_id, "year": year},
+        )
+    
+    async def get_team_roster(self, team_id, year):
+        return await self._get(
+            "/nfl-team-roster",
             params={"id": team_id, "year": year},
         )

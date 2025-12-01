@@ -43,7 +43,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-	"corsheaders.middleware.CorsMiddleware",
+	"corsheaders.middleware.CorsMiddleware", 
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -141,6 +141,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SPORTS_API_KEY = env('SPORTS_API_KEY')
 SPORTS_API_BASE = env('SPORTS_API_BASE')
 SPORTS_API_HOST = env('SPORTS_API_HOST')
+CACHE_TTL = env('CACHE_TTL')
 
 
 if os.environ.get("USE_REDIS") == "True":

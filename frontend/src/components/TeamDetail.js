@@ -14,7 +14,7 @@ function TeamDetail() {
 				console.log("test");
 				const data = await getTeamDetail(teamId);
 				console.log(data);
-				setTeam(data.body); // Assuming the backend response structure has a 'body' key with the team details
+				setTeam(data); // Assuming the backend response structure has a 'body' key with the team details
 				setLoading(false);
 			} catch (err) {
 				console.error("Failed to fetch team details", err);
@@ -35,7 +35,7 @@ function TeamDetail() {
 	}
 
 	// Assuming the team detail data structure is similar to the list API for now
-	const teamData = team.team;
+	const teamData = team.teaminfo;
 	const teamColor = "#" + teamData.color;
 
 	return (
