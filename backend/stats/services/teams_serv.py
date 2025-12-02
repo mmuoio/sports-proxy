@@ -92,6 +92,7 @@ class TeamService:
 
 		results = {
 			"team_info" : results_list[0],
+			"team_division" : TEAM_DIVISIONS[results_list[0]['teaminfo']['abbreviation']],
 			"team_record" : results_list[1],
 			"team_schedule" : results_list[2],
 			"team_leaders" : results_list[3],

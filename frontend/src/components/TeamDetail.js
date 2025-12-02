@@ -2,6 +2,41 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getTeamDetail } from "../api";
 
+// Helper component for the white tiles
+const StatCard = ({ title, value, unit }) => (
+	<div className="bg-white shadow-md rounded-lg p-5 border-l-4 border-indigo-500">
+		<p className="text-sm font-medium text-gray-500 uppercase tracking-wider">{title}</p>
+		<p className="mt-1 text-3xl font-semibold text-gray-900">
+			{value}
+			{unit && <span className="text-base font-normal text-gray-500 ml-1">{unit}</span>}
+		</p>
+	</div>
+);
+
+// Helper component for grouped stats (like W-L-T)
+const RecordCard = ({ record }) => {
+	// Assuming record is a flat dictionary like: {"wins": "4", "losses": "2", "ties": "0", "winPercent": ".667"}
+	const winPercent = record.items[0].stats.winPercent.value || "N/A";
+	const wins = record.items[0].stats.wins.value || "N/A";
+	const losses = record.items[0].stats.losses.value || "N/A";
+	const ties = record.items[0].stats.ties.value || "0";
+
+	let recordStr = wins + "-" + losses;
+	if (ties > 0) {
+		recordStr += "-" + ties;
+	}
+
+	return (
+		<div className="bg-white shadow-md rounded-lg p-5 border-l-4 border-green-600">
+			<p className="text-sm font-medium text-gray-500 uppercase tracking-wider">Overall Record</p>
+			<div className="mt-2">
+				<span className="text-3xl font-semibold text-gray-900">{recordStr}</span>
+				<span className="text-base text-gray-500 ml-3">({winPercent} PCT)</span>
+			</div>
+		</div>
+	);
+};
+
 function TeamDetail() {
 	const { teamId } = useParams();
 	const [team, setTeam] = useState(null);
@@ -11,7 +46,6 @@ function TeamDetail() {
 	useEffect(() => {
 		const fetchDetail = async () => {
 			try {
-				console.log("test");
 				const data = await getTeamDetail(teamId);
 				console.log(data);
 				setTeam(data); // Assuming the backend response structure has a 'body' key with the team details
@@ -35,8 +69,57 @@ function TeamDetail() {
 	}
 
 	// Assuming the team detail data structure is similar to the list API for now
+	console.log(team);
 	const teamData = team.teaminfo;
-	const teamColor = "#" + teamData.color;
+	const teamDetail = team.stats.team_info.teaminfo;
+	const teamRecord = team.stats.team_record;
+	const teamColor = "#" + teamDetail.color;
+
+	return (
+		<div className="min-h-screen bg-gray-100 p-8">
+			{/* Back Link */}
+			<Link to="/" className="text-blue-500 hover:text-blue-700 mb-6 block">
+				&larr; Back to Teams List
+			</Link>
+
+			{/* Dashboard Header - Using team color as a strong accent */}
+			<div className="bg-white shadow-xl rounded-xl p-6 mb-8 border-l-8" style={{ borderColor: teamColor }}>
+				<div className="flex items-center space-x-6">
+					<img src={teamDetail.logos[0].href} alt={teamDetail.displayName} className="w-24 h-24 object-contain" />
+					<div>
+						<h1 className="text-4xl font-extrabold text-gray-900" style={{ color: teamColor }}>
+							{teamDetail.displayName}
+						</h1>
+						<p className="text-xl text-gray-500">{teamDetail.location}</p>
+					</div>
+				</div>
+			</div>
+
+			{/* Dashboard Stats Grid */}
+			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+				{/* 1. Overall Record Card */}
+				<RecordCard record={teamRecord} />
+
+				{/* 2. Win Percentage Card */}
+				<StatCard title="Win Percentage" value={teamRecord.items[0].stats.winPercent.value || "N/A"} />
+
+				{/* 2. Win Percentage Card */}
+				<StatCard title="Win Percentage" value={teamRecord.items[0].stats.winPercent.value || "N/A"} />
+
+				{/* 2. Win Percentage Card */}
+				<StatCard title="Win Percentage" value={teamRecord.items[0].stats.winPercent.value || "N/A"} />
+			</div>
+
+			{/* Additional content/stats go here */}
+			<div className="mt-8 bg-white shadow-xl rounded-lg p-6">
+				<h3 className="text-xl font-bold text-gray-800">Additional Statistics</h3>
+				<pre className="mt-4 text-sm bg-gray-50 p-4 rounded-md overflow-auto">
+					{/* Display the raw data for debugging/development */}
+					{/*JSON.stringify(concurrentStats, null, 2)*/}
+				</pre>
+			</div>
+		</div>
+	);
 
 	return (
 		<div className="p-8 max-w-4xl mx-auto">
