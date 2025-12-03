@@ -3,15 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { getTeamDetail } from "../api";
 
 // Helper component for the white tiles
-const StatCard = ({ title, value, unit }) => (
-	<div className="bg-white shadow-md rounded-lg p-5 border-l-4 border-indigo-500">
-		<p className="text-sm font-medium text-gray-500 uppercase tracking-wider">{title}</p>
-		<p className="mt-1 text-3xl font-semibold text-gray-900">
-			{value}
-			{unit && <span className="text-base font-normal text-gray-500 ml-1">{unit}</span>}
-		</p>
-	</div>
-);
+const StatCard = ({ title, value, unit }) => <div className="bg-white shadow-md rounded-lg p-5 border-l-4 border-indigo-500"></div>;
 
 // Helper component for grouped stats (like W-L-T)
 const RecordCard = ({ record }) => {
@@ -108,6 +100,8 @@ function TeamDetail() {
 
 				{/* 2. Win Percentage Card */}
 				<StatCard title="Win Percentage" value={teamRecord.items[0].stats.winPercent.value || "N/A"} />
+
+				<button className="btn btn-primary">This is a button</button>
 			</div>
 
 			{/* Additional content/stats go here */}
