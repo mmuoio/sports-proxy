@@ -9,6 +9,7 @@ import TeamDetail from "./components/TeamDetail";
 
 function App() {
 	const [count, setCount] = useState(0);
+	//document.querySelector("html").setAttribute("data-theme", "dark");
 
 	return (
 		<>
@@ -38,20 +39,21 @@ function App() {
 					</button>
 				</div>
 			</div>
-			// DaisyUI container for full height (optional, but good for styling)
-			<div className="min-h-screen bg-gray-50">
-				{/* The Routes component defines all possible paths */}
-				<Routes>
-					{/* 1. Main Path: Team List (e.g., http://localhost:5173/) */}
-					<Route path="*" element={<TeamList />} />
+			<div className="min-h-screen bg-gray-100 flex flex-row  justify-center items-center">
+				<div className="max-w-350">
+					{/* The Routes component defines all possible paths */}
+					<Routes>
+						{/* 1. Main Path: Team List (e.g., http://localhost:5173/) */}
+						<Route path="*" element={<TeamList />} />
 
-					{/* 2. Detail Path: Team Dashboard (e.g., http://localhost:5173/teams/21) */}
-					{/* :teamId is a URL parameter that the TeamDetail component uses */}
-					<Route path="/teams/:teamId" element={<TeamDetail />} />
+						{/* 2. Detail Path: Team Dashboard (e.g., http://localhost:5173/teams/21) */}
+						{/* :teamId is a URL parameter that the TeamDetail component uses */}
+						<Route path="/teams/:teamId" element={<TeamDetail />} />
 
-					{/* Optional: Add a catch-all route for 404 pages */}
-					<Route path="*" element={<div className="p-10 text-center text-red-600">404: Page Not Found</div>} />
-				</Routes>
+						{/* Optional: Add a catch-all route for 404 pages */}
+						<Route path="*" element={<div className="p-10 text-center text-red-600">404: Page Not Found</div>} />
+					</Routes>
+				</div>
 			</div>
 		</>
 	);
